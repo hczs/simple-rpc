@@ -28,5 +28,5 @@ public class RpcResponse {
     /**
      * 错误信息
      */
-    private Throwable errorMsg;
+    private Throwable error;
 }

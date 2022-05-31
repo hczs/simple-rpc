@@ -8,11 +8,6 @@ package icu.sunnyc.rpc.core.constant;
 public final class CommonConstant {
 
     /**
-     * Zookeeper 所有服务注册地址
-     */
-    public static final String ZK_REGISTRY_PATH = "/simple-rpc/registry";
-
-    /**
      * Zookeeper 连接超时时间
      */
     public static final int ZK_SESSION_TIMEOUT = 5000;
@@ -26,5 +21,15 @@ public final class CommonConstant {
      * Zookeeper 连接超时重试间隔 ms
      */
     public static final int ZK_RETRY_INTERVAL = 1000;
+
+    /**
+     * Zookeeper 所有服务注册地址
+     */
+    public static final String ZK_REGISTRY_PATH = "simple-rpc/registry";
+
+    /**
+     * 服务数据存储路径
+     */
+    public static final String ZK_DATA_PATH = "/data";
 
 }
