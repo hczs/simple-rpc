@@ -15,11 +15,11 @@ import java.nio.charset.StandardCharsets;
  * @date: 2022/5/31 16:58:41
  */
 @Slf4j
-public class ServerRegistry {
+public class ServiceRegistry {
 
     private final CuratorFramework curatorZkClient;
 
-    public ServerRegistry(String zkAddress) {
+    public ServiceRegistry(String zkAddress) {
         curatorZkClient = ZookeeperUtil.getCuratorZookeeperClient(zkAddress);
     }
 

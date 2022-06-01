@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * RPC Server
+ * RPC Server / Netty Server
  * @author: houcheng
  * @date: 2022/5/31 16:57:13
  */
@@ -80,8 +80,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         });
 
         // 服务注册
-        ServerRegistry zookeeperServerRegistry = new ServerRegistry(registryAddress);
-        zookeeperServerRegistry.register(registryAddress);
+        ServiceRegistry zookeeperServiceRegistry = new ServiceRegistry(registryAddress);
+        zookeeperServiceRegistry.register(serviceAddress);
         channelFuture.channel().closeFuture().sync();
     }
 

@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.reflect.FastClass;
 import net.sf.cglib.reflect.FastMethod;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -30,7 +29,8 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, RpcRequest request) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, RpcRequest request) {
+        log.info("server receive request: {}", request);
         RpcResponse rpcResponse = new RpcResponse();
         rpcResponse.setRequestId(request.getRequestId());
         try {
@@ -43,6 +43,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
             rpcResponse.setCode(ResponseCodeEnum.FAIL.getCode());
         }
         ctx.writeAndFlush(rpcResponse).addListener(ChannelFutureListener.CLOSE);
+        log.info("server send response: {}", rpcResponse);
     }
 
     private Object handle(RpcRequest request) throws Throwable {
