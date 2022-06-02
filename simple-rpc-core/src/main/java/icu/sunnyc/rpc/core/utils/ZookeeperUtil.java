@@ -1,7 +1,7 @@
 package icu.sunnyc.rpc.core.utils;
 
 
-import icu.sunnyc.rpc.core.constant.CommonConstant;
+import icu.sunnyc.rpc.core.constant.ZookeeperConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -26,14 +26,14 @@ public class ZookeeperUtil {
      */
     public static CuratorFramework getCuratorZookeeperClient(String zkAddress) {
         // 重试策略 重试 3 次，每次间隔 5 秒
-        RetryNTimes retryPolicy = new RetryNTimes(CommonConstant.ZK_RETRY_TIMES, CommonConstant.ZK_RETRY_INTERVAL);
+        RetryNTimes retryPolicy = new RetryNTimes(ZookeeperConstant.ZK_RETRY_TIMES, ZookeeperConstant.ZK_RETRY_INTERVAL);
         // 创建连接
         CuratorFramework client = CuratorFrameworkFactory.builder()
                 .connectString(zkAddress)
-                .sessionTimeoutMs(CommonConstant.ZK_SESSION_TIMEOUT)
+                .sessionTimeoutMs(ZookeeperConstant.ZK_SESSION_TIMEOUT)
                 .retryPolicy(retryPolicy)
                 // 指定命名空间后，客户端所有操作都会以该命名空间为前缀
-                .namespace(CommonConstant.ZK_NAMESPACE)
+                .namespace(ZookeeperConstant.ZK_NAMESPACE)
                 .build();
         log.info("Connecting to zookeeper server...");
         // 启动

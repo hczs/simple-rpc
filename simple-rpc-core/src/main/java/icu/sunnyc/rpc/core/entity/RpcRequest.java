@@ -25,15 +25,13 @@ public class RpcRequest {
      */
     private String methodName;
 
-    private String serviceVersion;
-
     /**
      * 参数类型
      */
     private Class<?>[] parameterTypes;
 
     /**
-     * 参数
+     * 参数值
      */
     private Object[] parameters;
 }

@@ -1,6 +1,8 @@
 package icu.sunnyc.rpc.core.client;
 
 import icu.sunnyc.rpc.core.handler.RemoteInvocationHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Proxy;
 
@@ -9,13 +11,11 @@ import java.lang.reflect.Proxy;
  * @author: houcheng
  * @date: 2022/6/1 15:42:32
  */
+@Component
 public class RpcProxy {
 
-    private final ServiceDiscovery serviceDiscovery;
-
-    public RpcProxy(ServiceDiscovery serviceDiscovery) {
-        this.serviceDiscovery = serviceDiscovery;
-    }
+    @Autowired
+    private ServiceDiscovery serviceDiscovery;
 
     /**
      * 创建代理

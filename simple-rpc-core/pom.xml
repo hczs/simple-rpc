@@ -23,6 +23,7 @@
         <curator.version>4.3.0</curator.version>
         <spring.version>5.3.20</spring.version>
         <lombok.version>1.18.8</lombok.version>
+        <commons.lang3.version>3.12.0</commons.lang3.version>
     </properties>
     
     <dependencies>
@@ -90,11 +91,18 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <!-- 单元测试 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
+        </dependency>
+        <!-- apache 工具包 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
         </dependency>
     </dependencies>
 

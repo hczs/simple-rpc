@@ -1,4 +1,4 @@
-package icu.sunnyc.rpc.demo.server.impl;
+package icu.sunnyc.rpc.demo.producer.impl;
 
 import icu.sunnyc.rpc.core.annotation.RpcService;
 import icu.sunnyc.rpc.demo.api.HelloService;

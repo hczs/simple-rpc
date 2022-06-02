@@ -1,11 +1,15 @@
 package icu.sunnyc.rpc.core.client;
 
-import icu.sunnyc.rpc.core.constant.CommonConstant;
+import icu.sunnyc.rpc.core.constant.ZookeeperConstant;
 import icu.sunnyc.rpc.core.utils.ZookeeperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,20 +21,23 @@ import java.util.concurrent.ThreadLocalRandom;
  * @modified ：
  */
 @Slf4j
+@Component
+@PropertySource("classpath:simple-rpc.properties")
 public class ServiceDiscovery {
+
+    /**
+     * 服务注册中心地址
+     */
+    @Value("${registry.address}")
+    private String registryAddress;
 
     /**
      * 服务列表
      */
     private volatile List<String> serviceList = new ArrayList<>();
 
-    /**
-     * 服务注册中心地址
-     */
-    private final String registryAddress;
-
-    public ServiceDiscovery(String registryAddress) {
-        this.registryAddress = registryAddress;
+    @PostConstruct
+    public void init() {
         // 注册永久监听
         watchNode();
     }
@@ -60,15 +67,20 @@ public class ServiceDiscovery {
         return result;
     }
 
+    /**
+     * 注册永久监听
+     */
     private void watchNode() {
+        log.info("Start watching the service registry node: {}", ZookeeperConstant.ZK_REGISTRY_PATH);
+        log.info("Service registry address: {}", registryAddress);
         CuratorFramework curatorZkClient = ZookeeperUtil.getCuratorZookeeperClient(registryAddress);
-        PathChildrenCache pathChildrenCache = new PathChildrenCache(curatorZkClient, CommonConstant.ZK_REGISTRY_PATH, true);
+        PathChildrenCache pathChildrenCache = new PathChildrenCache(curatorZkClient, ZookeeperConstant.ZK_REGISTRY_PATH, true);
         try {
             // 同步初始化 初始化后即可获取到当前服务列表
             pathChildrenCache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
             // 初次加载 获取服务列表
             flushServiceList(pathChildrenCache);
-            // 再注册永久监听 监听服务列表变化
+            // 添加永久监听 监听节点变化 并及时刷新服务列表
             pathChildrenCache.getListenable().addListener((client, event) -> {
                 log.info("Node change event: {}", event.getType());
                 // 监听到子节点变化 刷新服务列表
@@ -80,6 +92,10 @@ public class ServiceDiscovery {
 
     }
 
+    /**
+     * 刷新服务列表
+     * @param pathChildrenCache PathChildrenCache
+     */
     private void flushServiceList(PathChildrenCache pathChildrenCache) {
         List<ChildData> childDataList = pathChildrenCache.getCurrentData();
         ArrayList<String> curServiceList = new ArrayList<>();

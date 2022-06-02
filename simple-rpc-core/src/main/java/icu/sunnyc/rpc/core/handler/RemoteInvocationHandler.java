@@ -18,7 +18,10 @@ import java.util.UUID;
 @Slf4j
 public class RemoteInvocationHandler implements InvocationHandler {
 
-    private ServiceDiscovery serviceDiscovery;
+    /**
+     * 服务发现对象
+     */
+    private final ServiceDiscovery serviceDiscovery;
 
     public RemoteInvocationHandler(ServiceDiscovery serviceDiscovery) {
         this.serviceDiscovery = serviceDiscovery;

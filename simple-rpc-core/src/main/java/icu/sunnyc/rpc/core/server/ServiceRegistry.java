@@ -1,6 +1,6 @@
 package icu.sunnyc.rpc.core.server;
 
-import icu.sunnyc.rpc.core.constant.CommonConstant;
+import icu.sunnyc.rpc.core.constant.ZookeeperConstant;
 import icu.sunnyc.rpc.core.utils.ZookeeperUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -30,7 +30,7 @@ public class ServiceRegistry {
     public void register(String serviceAddress) {
         log.info("Registering service address {}", serviceAddress);
         byte[] data = serviceAddress.getBytes(StandardCharsets.UTF_8);
-        String servicePath = CommonConstant.ZK_SERVICE_PATH_PREFIX;
+        String servicePath = ZookeeperConstant.ZK_SERVICE_PATH_PREFIX;
         try {
             String resultPath = curatorZkClient.create().creatingParentsIfNeeded()
                     .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)
