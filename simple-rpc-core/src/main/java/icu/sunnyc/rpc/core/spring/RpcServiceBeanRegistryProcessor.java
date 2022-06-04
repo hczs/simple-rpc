@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.Set;
 

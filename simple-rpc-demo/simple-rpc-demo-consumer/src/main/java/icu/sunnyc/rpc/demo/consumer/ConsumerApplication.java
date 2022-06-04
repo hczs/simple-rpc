@@ -2,9 +2,7 @@ package icu.sunnyc.rpc.demo.consumer;
 
 
 import icu.sunnyc.rpc.core.RpcApplication;
-import icu.sunnyc.rpc.core.annotation.SimpleReference;
-import icu.sunnyc.rpc.core.client.RpcProxy;
-import icu.sunnyc.rpc.demo.api.HelloService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsumerApplication {
 
-    @SimpleReference
-    private HelloService helloService;
+    @Autowired
+    private MyConsumer myConsumer;
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = RpcApplication.run(ConsumerApplication.class);
@@ -26,7 +24,7 @@ public class ConsumerApplication {
     }
 
     public void sayHello() {
-        System.out.println(helloService.hello("sunnyc"));
+        myConsumer.sayHello("sunnyc");
     }
 
 
