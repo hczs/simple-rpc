@@ -3,17 +3,25 @@ Zookeeper + Netty 简单实现 RPC 框架
 
 # 整体设计
 
-### 整体架构
+## 整体架构
 
 ![整体架构](./img/rpc.png)
 
-
+# 所用技术栈
+1. 首先我们需要发网络请求进行调用，这里使用网络框架 Netty
+2. 然后调用之间的消息需要序列化和反序列化，这里使用序列化框架 protostuff
+3. 再然后呢我们需要知道服务提供方地址是多少，也就是 服务发现/ 服务注册，我们使用 Zookeeper 来管理服务，使用 Curator 框架来操作 Zookeeper
+4. 我们使用 Spring 来方便的管理 Bean 进行随意的注入使用，以及配置文件值注入
+5. 使用 lombok 来精简代码，方便快速开发
+6. 使用 objenesis 库来优化我们反序列化 请求 / 响应对象的速度
+7. 使用 cglib 来优化我们接收响应处理执行方法的速度
+8. 使用 commons.lang3 库中的一些常用工具类
 
 # 使用方法
 
 注意：需要提前启动 Zookeeper 才能正常运行
 
-### 1. 创建 simple-rpc-demo-api 工程，编写接口定义
+## 1. 创建 simple-rpc-demo-api 工程，编写接口定义
 
 ```java
 package icu.sunnyc.rpc.demo.api;
@@ -42,9 +50,9 @@ public interface HelloService {
 }
 ```
 
-### 2. 创建 simple-rpc-demo-producer 工程
+## 2. 创建 simple-rpc-demo-producer 工程
 
-#### 2.1 依赖 api 和 simple-rpc-core （即 simple-rpc 核心代码工程）
+### 2.1 依赖 api 和 simple-rpc-core （即 simple-rpc 核心代码工程）
 
 ```xml
 <dependencies>
@@ -65,7 +73,7 @@ public interface HelloService {
 </dependencies>
 ```
 
-#### 2.2 添加 simple-rpc.properties 配置文件
+### 2.2 添加 simple-rpc.properties 配置文件
 
 在 src/main/resources 下新建 simple-rpc.properties 配置文件，此配置文件名称不能修改，写入以下内容：
 
@@ -79,7 +87,7 @@ registry.address=127.0.0.1:2181
 service.address=127.0.0.1:13356
 ```
 
-#### 2.3 实现 simple-rpc-demo-api 中定义的接口
+### 2.3 实现 simple-rpc-demo-api 中定义的接口
 
 ```java
 package icu.sunnyc.rpc.demo.producer.impl;
@@ -111,7 +119,7 @@ public class HelloServiceImpl implements HelloService {
 }
 ```
 
-#### 2.4 编写生产者（服务提供者）启动类
+### 2.4 编写生产者（服务提供者）启动类
 
 ```java
 package icu.sunnyc.rpc.demo.producer;
@@ -131,9 +139,9 @@ public class ProducerApplication {
 }
 ```
 
-### 3. 创建 simple-rpc-demo-consumer 工程
+## 3. 创建 simple-rpc-demo-consumer 工程
 
-#### 3.1 依赖 api 和 simple-rpc-core
+### 3.1 依赖 api 和 simple-rpc-core
 
 ```xml
 <dependencies>
@@ -154,7 +162,7 @@ public class ProducerApplication {
 </dependencies>
 ```
 
-#### 3.2 添加 simple-rpc.properties 配置文件
+### 3.2 添加 simple-rpc.properties 配置文件
 
 在 src/main/resources 下新建 simple-rpc.properties 配置文件，此配置文件名称不能修改，写入以下内容：
 
@@ -164,7 +172,7 @@ public class ProducerApplication {
 registry.address=127.0.0.1:2181
 ```
 
-#### 3.3 编写消费者（服务调用者）启动类
+### 3.3 编写消费者（服务调用者）启动类
 
 ```java
 package icu.sunnyc.rpc.demo.consumer;
@@ -217,7 +225,7 @@ public class ConsumerApplication {
 }
 ```
 
-### 4. 验证
+## 4. 验证
 
 先启动生产者，再启动消费者进行调用，不出意外消费者控制台会出现以下内容：
 
