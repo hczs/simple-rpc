@@ -14,4 +14,11 @@ public interface HelloService {
      */
     String hello(String name);
 
+    /**
+     * 返回这个学生一年后的样子
+     * @param student 学生对象
+     * @return 一年后的学生对象
+     */
+    Student oneYearLater(Student student);
+
 }

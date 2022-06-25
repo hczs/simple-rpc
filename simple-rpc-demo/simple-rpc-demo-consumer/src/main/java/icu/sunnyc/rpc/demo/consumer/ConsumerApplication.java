@@ -2,6 +2,7 @@ package icu.sunnyc.rpc.demo.consumer;
 
 
 import icu.sunnyc.rpc.core.RpcApplication;
+import icu.sunnyc.rpc.demo.api.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,19 @@ public class ConsumerApplication {
         AnnotationConfigApplicationContext context = RpcApplication.run(ConsumerApplication.class);
         ConsumerApplication consumerApplication = context.getBean(ConsumerApplication.class);
         consumerApplication.sayHello();
+        consumerApplication.callOneYearLater();
     }
 
     public void sayHello() {
         myConsumer.sayHello("sunnyc");
+    }
+
+    public void callOneYearLater() {
+        Student student = new Student();
+        student.setName("sunnyc");
+        student.setAge(18);
+        student.setGender("male");
+        myConsumer.callOneYearLater(student);
     }
 
 
