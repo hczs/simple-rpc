@@ -4,6 +4,7 @@ package icu.sunnyc.rpc.demo.consumer;
 import icu.sunnyc.rpc.core.RpcApplication;
 import icu.sunnyc.rpc.core.annotation.SimpleReference;
 import icu.sunnyc.rpc.demo.api.HelloService;
+import icu.sunnyc.rpc.demo.api.Student;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +31,22 @@ public class ConsumerApplication {
             String result = item.sayHello(String.valueOf(reqParam));
             System.out.println("请求参数：" + reqParam + " 响应结果：" + result);
         }, consumerApplication);
+
+        // 复杂参数类型调用
+        consumerApplication.callOneYearLater();
     }
 
     public String sayHello(String name) {
         return helloService.hello(name);
+    }
+
+    public void callOneYearLater() {
+        Student student = new Student();
+        student.setName("sunnyc");
+        student.setAge(18);
+        student.setGender("male");
+        System.out.println("一年前的学生：" + student);
+        System.out.println("一年后的学生：" + helloService.oneYearLater(student));
     }
 
 }
